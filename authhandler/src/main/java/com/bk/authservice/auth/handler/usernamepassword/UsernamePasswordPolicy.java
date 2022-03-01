@@ -1,4 +1,6 @@
-package com.bk.authservice.auth.policy;
+package com.bk.authservice.auth.handler.usernamepassword;
+
+import com.bk.authservice.auth.policy.Policy;
 
 import java.util.Properties;
 

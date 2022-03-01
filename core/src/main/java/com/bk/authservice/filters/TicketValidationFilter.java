@@ -1,11 +1,9 @@
 package com.bk.authservice.filters;
 
-import com.bk.authservice.auth.strategy.AuthenticationStrategyResolverImpl;
 import com.bk.authservice.auth.strategy.AuthenticationStrategy;
-
+import com.bk.authservice.auth.strategy.AuthenticationStrategyResolverImpl;
 import com.bk.authservice.auth.util.CookieUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
@@ -15,13 +13,17 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-@Component
 public class TicketValidationFilter implements Filter {
-    // TODO - isBypassURL abstract - get it from callback
+    // TODO - isBypassURL - get it from callback
 
     @Autowired
     private AuthenticationStrategyResolverImpl authenticationStrategyResolver;
-    
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+
+    }
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
@@ -43,6 +45,11 @@ public class TicketValidationFilter implements Filter {
                 filterChain.doFilter(servletRequest, servletResponse);
             }
         }
+    }
+
+    @Override
+    public void destroy() {
+
     }
 
     private boolean isBypassUrl(String requestPath) {

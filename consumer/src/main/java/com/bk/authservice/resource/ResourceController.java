@@ -27,7 +27,9 @@ public class ResourceController {
     @GetMapping(value="/")
     public String defaultMethod(HttpServletRequest request, HttpServletResponse response) {
         return "<h1>Authentication Service - Default Landing Page !</h1>"
-                +"User information obtained from Okta: " + CookieUtils.extractCookie(request, CookieUtils.TOKEN_COOKIE_NAME).getValue();
+                + "<br>"
+                + "Authentication Handler: " + policyManager.getPolicy(GlobalPolicy.class).getAuthenticationHandler().getHandlerName() + "<br>"
+                + "User information obtained from authentication handler: " + CookieUtils.extractCookie(request, CookieUtils.TOKEN_COOKIE_NAME).getValue();
     }
 
     @GetMapping(value="/policy/{policyType}")

@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 public class Main {
 
     public static void main(String[] args) {
+        System.setProperty("https.protocols", "SSLv3,TLSv1,TLSv1.1,TLSv1.2");
         SpringApplication.run(Main.class, args);
     }
 

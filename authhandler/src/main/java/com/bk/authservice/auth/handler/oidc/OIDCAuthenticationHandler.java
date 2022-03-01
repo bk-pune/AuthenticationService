@@ -1,9 +1,7 @@
 package com.bk.authservice.auth.handler.oidc;
 
-import com.bk.authservice.auth.policy.OIDCPolicy;
 import com.bk.authservice.auth.handler.AuthenticationHandler;
 import com.bk.authservice.auth.handler.AuthenticationType;
-import com.bk.authservice.auth.policy.PolicyManager;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.http.*;

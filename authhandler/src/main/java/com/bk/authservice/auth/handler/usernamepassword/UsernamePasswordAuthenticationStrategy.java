@@ -1,15 +1,13 @@
-package com.bk.authservice.auth.strategy;
+package com.bk.authservice.auth.handler.usernamepassword;
 
 import com.bk.authservice.auth.handler.AuthenticationType;
-import com.bk.authservice.auth.handler.usernamepassword.UsernamePasswordAuthenticationHandler;
-import com.bk.authservice.auth.handler.usernamepassword.UsernamePasswordCredentials;
 import com.bk.authservice.auth.policy.PolicyManager;
-import com.bk.authservice.auth.policy.UsernamePasswordPolicy;
+import com.bk.authservice.auth.strategy.AbstractAuthenticationStrategy;
+import com.bk.authservice.auth.strategy.AuthenticationStrategyResolver;
 import com.bk.authservice.auth.util.Constants;
 import com.bk.authservice.auth.util.CookieUtils;
 import com.bk.authservice.model.MemCache;
 import com.bk.authservice.model.RequestData;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -17,9 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
-import static com.bk.authservice.auth.util.CookieUtils.TOKEN_COOKIE_NAME;
-
-public class UsernamePasswordAuthenticationStrategy extends AbstractAuthenticationStrategy<UsernamePasswordAuthenticationHandler, UsernamePasswordCredentials> {
+public class UsernamePasswordAuthenticationStrategy extends AbstractAuthenticationStrategy<UsernamePasswordCredentials> {
 
     public UsernamePasswordAuthenticationStrategy(PolicyManager policyManager, AuthenticationStrategyResolver authenticationStrategyResolver) {
         super(new UsernamePasswordAuthenticationHandler(), policyManager, authenticationStrategyResolver);
@@ -50,15 +46,6 @@ public class UsernamePasswordAuthenticationStrategy extends AbstractAuthenticati
         // redirect to original url
         httpServletResponse.sendRedirect(requestData.getAccessURL());
     }
-
-    private void manageCookies(String tokenValue, HttpServletResponse httpServletResponse) {
-        // set sec token as a cookie
-        httpServletResponse.addCookie(CookieUtils.generateCookie(TOKEN_COOKIE_NAME, tokenValue));
-
-        removePreAuthCookie(httpServletResponse);
-    }
-
-
 
     @Override
     public UsernamePasswordCredentials extractCredentials(HttpServletRequest httpServletRequest) {

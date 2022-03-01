@@ -1,10 +1,9 @@
-package com.bk.authservice.auth.strategy;
+package com.bk.authservice.auth.handler.oidc;
 
 import com.bk.authservice.auth.handler.AuthenticationType;
-import com.bk.authservice.auth.handler.oidc.OIDCAuthenticationHandler;
-import com.bk.authservice.auth.handler.oidc.OIDCCredentials;
-import com.bk.authservice.auth.policy.OIDCPolicy;
 import com.bk.authservice.auth.policy.PolicyManager;
+import com.bk.authservice.auth.strategy.AbstractAuthenticationStrategy;
+import com.bk.authservice.auth.strategy.AuthenticationStrategyResolver;
 import com.bk.authservice.auth.util.CookieUtils;
 import com.bk.authservice.model.MemCache;
 import com.bk.authservice.model.RequestData;
@@ -18,13 +17,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.bk.authservice.auth.util.CookieUtils.TOKEN_COOKIE_NAME;
-
 /**
  * Created By: bhushan.karmarkar12@gmail.com
  * Date: 10/02/22
  */
-public class OIDCAuthenticationStrategy extends AbstractAuthenticationStrategy<OIDCAuthenticationHandler, OIDCCredentials> {
+public class OIDCAuthenticationStrategy extends AbstractAuthenticationStrategy<OIDCCredentials> {
 
     public OIDCAuthenticationStrategy(PolicyManager policyManager, AuthenticationStrategyResolver authenticationStrategyResolver) {
         super(new OIDCAuthenticationHandler(), policyManager, authenticationStrategyResolver);
@@ -56,14 +53,6 @@ public class OIDCAuthenticationStrategy extends AbstractAuthenticationStrategy<O
         // redirect to original url
         httpServletResponse.sendRedirect(requestData.getAccessURL());
     }
-
-    private void manageCookies(String tokenValue, HttpServletResponse httpServletResponse) {
-        // set sec token as a cookie
-        httpServletResponse.addCookie(CookieUtils.generateCookie(TOKEN_COOKIE_NAME, tokenValue));
-
-        removePreAuthCookie(httpServletResponse);
-    }
-
 
     private RequestData prepareRequestData(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         // create temp cookie for maintaining track
@@ -137,7 +126,7 @@ public class OIDCAuthenticationStrategy extends AbstractAuthenticationStrategy<O
         sb.append("&");
         sb.append("scope=" + "profile openid");
         sb.append("&");
-        sb.append("redirect_uri=" + "http://localhost:8080/auth/oidc/code");
+        sb.append("redirect_uri=" + "https://bkpune.cv.com:8443/auth/oidc/code");
         sb.append("&");
         sb.append("state=" + requestData.getAuthenticationSpecificData().get("state"));
 

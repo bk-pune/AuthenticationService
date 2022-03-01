@@ -3,16 +3,18 @@ package com.bk.authservice.auth.strategy;
 import com.bk.authservice.auth.handler.AuthenticationHandler;
 import com.bk.authservice.auth.handler.Credentials;
 import com.bk.authservice.auth.policy.PolicyManager;
+import com.bk.authservice.auth.util.CookieUtils;
 import org.springframework.stereotype.Component;
+import javax.servlet.http.HttpServletResponse;
 
-import javax.annotation.PostConstruct;
+import static com.bk.authservice.auth.util.CookieUtils.TOKEN_COOKIE_NAME;
 
 /**
  * Created By: bhushan.karmarkar12@gmail.com
  * Date: 10/02/22
  */
 @Component
-public abstract class AbstractAuthenticationStrategy<T extends AuthenticationHandler, C extends Credentials> implements AuthenticationStrategy {
+public abstract class AbstractAuthenticationStrategy<C extends Credentials> implements AuthenticationStrategy {
 
     protected AuthenticationHandler authenticationHandler;
     protected PolicyManager policyManager;
@@ -25,5 +27,12 @@ public abstract class AbstractAuthenticationStrategy<T extends AuthenticationHan
         this.authenticationHandler = authenticationHandler;
         this.policyManager = policyManager;
         authenticationStrategyResolver.registerAuthenticationStrategy(authenticationHandler.getAuthenticationType(), this);
+    }
+
+    protected void manageCookies(String tokenValue, HttpServletResponse httpServletResponse) {
+        // set sec token as a cookie
+        httpServletResponse.addCookie(CookieUtils.generateCookie(TOKEN_COOKIE_NAME, tokenValue));
+
+        removePreAuthCookie(httpServletResponse);
     }
 }

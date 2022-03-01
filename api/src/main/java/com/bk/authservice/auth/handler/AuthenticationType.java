@@ -2,7 +2,8 @@ package com.bk.authservice.auth.handler;
 
 public enum AuthenticationType {
     USERNAME_PASSWORD("USERNAME_PASSWORD"),
-    OIDC("OIDC");
+    OIDC("OIDC"),
+    X509("X509");
 
     private String handlerName;
     private AuthenticationType(String handlerName) {

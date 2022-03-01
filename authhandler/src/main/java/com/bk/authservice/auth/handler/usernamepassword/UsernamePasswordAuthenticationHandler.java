@@ -3,7 +3,6 @@ package com.bk.authservice.auth.handler.usernamepassword;
 import com.bk.authservice.auth.handler.AuthenticationHandler;
 import com.bk.authservice.auth.handler.AuthenticationType;
 import com.bk.authservice.auth.policy.PolicyManager;
-import com.bk.authservice.auth.policy.UsernamePasswordPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
