@@ -1,8 +1,7 @@
 package com.bk.authservice.policy;
 
-import com.bk.authservice.auth.handler.AuthenticationType;
-import com.bk.authservice.auth.policy.Policy;
-import com.bk.authservice.auth.util.Constants;
+import com.bk.authservice.handler.AuthenticationType;
+import com.bk.authservice.util.Constants;
 
 import java.util.Properties;
 

@@ -1,8 +1,8 @@
 package com.bk.authservice.filters;
 
-import com.bk.authservice.auth.strategy.AuthenticationStrategy;
-import com.bk.authservice.auth.strategy.AuthenticationStrategyResolverImpl;
-import com.bk.authservice.auth.util.CookieUtils;
+import com.bk.authservice.strategy.AuthenticationStrategy;
+import com.bk.authservice.strategy.AuthenticationStrategyResolverImpl;
+import com.bk.authservice.util.CookieUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.*;

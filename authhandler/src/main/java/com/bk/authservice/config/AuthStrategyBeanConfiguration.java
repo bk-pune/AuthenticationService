@@ -1,10 +1,10 @@
 package com.bk.authservice.config;
 
-import com.bk.authservice.auth.handler.x509.X509AuthenticationStrategy;
-import com.bk.authservice.auth.policy.PolicyManager;
-import com.bk.authservice.auth.strategy.AuthenticationStrategyResolver;
-import com.bk.authservice.auth.handler.oidc.OIDCAuthenticationStrategy;
-import com.bk.authservice.auth.handler.usernamepassword.UsernamePasswordAuthenticationStrategy;
+import com.bk.authservice.handler.x509.X509AuthenticationStrategy;
+import com.bk.authservice.policy.PolicyManager;
+import com.bk.authservice.strategy.AuthenticationStrategyResolver;
+import com.bk.authservice.handler.oidc.OIDCAuthenticationStrategy;
+import com.bk.authservice.handler.usernamepassword.UsernamePasswordAuthenticationStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,6 +1,6 @@
 package com.bk.authservice.model;
 
-import com.bk.authservice.auth.handler.AuthenticationType;
+import com.bk.authservice.handler.AuthenticationType;
 
 import java.util.Map;
 

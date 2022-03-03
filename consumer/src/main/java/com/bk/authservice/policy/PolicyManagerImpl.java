@@ -1,8 +1,5 @@
 package com.bk.authservice.policy;
 
-import com.bk.authservice.auth.policy.Policy;
-import com.bk.authservice.auth.policy.PolicyManager;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;

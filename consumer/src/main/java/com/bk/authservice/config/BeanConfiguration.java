@@ -1,9 +1,9 @@
 package com.bk.authservice.config;
 
-import com.bk.authservice.auth.handler.oidc.OIDCPolicy;
-import com.bk.authservice.auth.handler.x509.X509Policy;
-import com.bk.authservice.auth.policy.PolicyManager;
-import com.bk.authservice.auth.handler.usernamepassword.UsernamePasswordPolicy;
+import com.bk.authservice.handler.oidc.OIDCPolicy;
+import com.bk.authservice.handler.x509.X509Policy;
+import com.bk.authservice.policy.PolicyManager;
+import com.bk.authservice.handler.usernamepassword.UsernamePasswordPolicy;
 import com.bk.authservice.policy.GlobalPolicy;
 import com.bk.authservice.policy.PolicyManagerImpl;
 import org.springframework.context.annotation.Bean;
