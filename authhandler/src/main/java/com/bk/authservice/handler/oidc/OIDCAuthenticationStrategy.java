@@ -2,15 +2,13 @@ package com.bk.authservice.handler.oidc;
 
 import com.bk.authservice.handler.AuthenticationType;
 import com.bk.authservice.identity.UserPrincipal;
-import com.bk.authservice.identity.UserPrincipalBuilder;
 import com.bk.authservice.policy.PolicyManager;
+import com.bk.authservice.service.GenericDataProviderService;
 import com.bk.authservice.strategy.AbstractAuthenticationStrategy;
 import com.bk.authservice.strategy.AuthenticationStrategyResolver;
-import com.bk.authservice.util.Constants;
 import com.bk.authservice.util.CookieUtils;
 import com.bk.authservice.model.MemCache;
 import com.bk.authservice.model.RequestData;
-import com.okta.jwt.Jwt;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -26,8 +24,8 @@ import java.util.UUID;
  */
 public class OIDCAuthenticationStrategy extends AbstractAuthenticationStrategy<OIDCCredentials, UserPrincipal> {
 
-    public OIDCAuthenticationStrategy(PolicyManager policyManager, AuthenticationStrategyResolver authenticationStrategyResolver) {
-        super(new OIDCAuthenticationHandler(), policyManager, authenticationStrategyResolver);
+    public OIDCAuthenticationStrategy(GenericDataProviderService genericDataProviderService, PolicyManager policyManager, AuthenticationStrategyResolver authenticationStrategyResolver) {
+        super(genericDataProviderService, new OIDCAuthenticationHandler(), policyManager, authenticationStrategyResolver);
     }
 
     @Override
@@ -55,17 +53,7 @@ public class OIDCAuthenticationStrategy extends AbstractAuthenticationStrategy<O
         manageCookies(tokenValue, httpServletResponse);
 
         // redirect to original url
-        httpServletResponse.sendRedirect(requestData.getAccessURL());
-    }
-
-    public UserPrincipal buildPrincipal(Map authenticationAttributes, HttpServletRequest httpServletRequest) {
-        UserPrincipalBuilder builder = new UserPrincipalBuilder(); //TODO when non-user principal type is supported, this should be refactored
-        return builder.authenticationAttributes(authenticationAttributes)
-                .authenticationType(AuthenticationType.OIDC)
-                .name(((Jwt)authenticationAttributes.get("JWT")).getClaims().get("preferred_username").toString())
-                .authorization(null) //TODO
-                .locale(httpServletRequest.getLocale())
-                .build();
+        httpServletResponse.sendRedirect(requestData.getAccessURL()); //TODO what if the access url is auth_code?
     }
 
     private RequestData prepareRequestData(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {

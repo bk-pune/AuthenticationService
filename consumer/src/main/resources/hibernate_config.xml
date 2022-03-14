@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.url">
+            jdbc:derby:/Users/bhushankarmarkar/Applications/db-derby-10.15.2.0-bin/yaasdb
+        </property>
+        <property name="hibernate.default_schema">bhushan</property>
+        <property name="javax.persistence.jdbc.user">bhushan</property>
+        <property name="javax.persistence.jdbc.password">bkpune</property>
+
+        <!-- Enable Hibernate's automatic session context management -->
+        <property name="current_session_context_class">thread</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.DerbyTenSevenDialect</property>
+    </session-factory>
+</hibernate-configuration>

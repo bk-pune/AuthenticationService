@@ -2,6 +2,7 @@ package com.bk.authservice.handler.oidc;
 
 import com.bk.authservice.handler.AuthenticationHandler;
 import com.bk.authservice.handler.AuthenticationType;
+import com.bk.authservice.util.Constants;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.http.*;
@@ -42,6 +43,7 @@ public class OIDCAuthenticationHandler implements AuthenticationHandler<OIDCCred
         Jwt jwtToken = idTokenVerifier.decode(id_token, null);
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("JWT", jwtToken);
+        attributes.put(Constants.USERNAME, jwtToken.getClaims().get("preferred_username").toString());
         return attributes;
     }
 

@@ -1,5 +1,7 @@
 package com.bk.authservice.strategy;
 
+import com.bk.authservice.entity.User;
+import com.bk.authservice.entity.YaasEntity;
 import com.bk.authservice.handler.AuthenticationHandler;
 import com.bk.authservice.handler.AuthenticationType;
 import com.bk.authservice.handler.Credentials;
@@ -7,6 +9,7 @@ import com.bk.authservice.identity.UserPrincipal;
 import com.bk.authservice.identity.UserPrincipalBuilder;
 import com.bk.authservice.identity.YaasPrincipal;
 import com.bk.authservice.policy.PolicyManager;
+import com.bk.authservice.service.GenericDataProviderService;
 import com.bk.authservice.util.Constants;
 import com.bk.authservice.util.CookieUtils;
 import org.springframework.stereotype.Component;
@@ -14,6 +17,8 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.bk.authservice.util.CookieUtils.TOKEN_COOKIE_NAME;
@@ -27,12 +32,16 @@ public abstract class AbstractAuthenticationStrategy<C extends Credentials, P ex
 
     protected AuthenticationHandler authenticationHandler;
     protected PolicyManager policyManager;
+    protected GenericDataProviderService genericDataProviderService;
+
     /**
      * Registers this authentication strategy to the Authentication Strategy Resolver.
+     * @param genericDataProviderService
      * @param authenticationHandler for this authentication strategy
      * @param authenticationStrategyResolver
      */
-    public AbstractAuthenticationStrategy(AuthenticationHandler authenticationHandler, PolicyManager policyManager, AuthenticationStrategyResolver authenticationStrategyResolver) {
+    public AbstractAuthenticationStrategy(GenericDataProviderService genericDataProviderService, AuthenticationHandler authenticationHandler, PolicyManager policyManager, AuthenticationStrategyResolver authenticationStrategyResolver) {
+        this.genericDataProviderService = genericDataProviderService;
         this.authenticationHandler = authenticationHandler;
         this.policyManager = policyManager;
         authenticationStrategyResolver.registerAuthenticationStrategy(authenticationHandler.getAuthenticationType(), this);
@@ -43,5 +52,26 @@ public abstract class AbstractAuthenticationStrategy<C extends Credentials, P ex
         httpServletResponse.addCookie(CookieUtils.generateCookie(TOKEN_COOKIE_NAME, tokenValue));
 
         removePreAuthCookie(httpServletResponse);
+    }
+
+    public UserPrincipal buildPrincipal(Map authenticationAttributes, HttpServletRequest httpServletRequest) {
+        UserPrincipalBuilder builder = new UserPrincipalBuilder(); //TODO when non-user principal type is supported, this should be refactored
+        return builder.authenticationAttributes(authenticationAttributes)
+                .authenticationType(AuthenticationType.OIDC)
+                .name(authenticationAttributes.get(Constants.USERNAME).toString())
+                .authorization(null) //TODO
+                .user(getUser(authenticationAttributes.get(Constants.USERNAME).toString())) // TODO fetch user from db and set here
+                .locale(httpServletRequest.getLocale())
+                .build();
+    }
+
+    private User getUser(String username) {
+        Map<String, Object> fetchCriteria = new HashMap<>();
+        fetchCriteria.put(Constants.USERNAME, username);
+        List<YaasEntity> entities = genericDataProviderService.fetchWithCriteria(User.class, fetchCriteria);
+        if (entities != null) {
+            return (User) entities.get(0);
+        }
+        return null;
     }
 }

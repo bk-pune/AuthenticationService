@@ -10,4 +10,5 @@ public final class Constants {
     public static final String PASS_WORD = "password";
     public static final String USERNAME = "username";
     public static final String LOGOUT_URL = "/logout";
+    public static final Object EMAIL = "email";
 }

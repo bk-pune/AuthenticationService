@@ -4,6 +4,7 @@ import com.bk.authservice.handler.AuthenticationType;
 import com.bk.authservice.identity.UserPrincipal;
 import com.bk.authservice.identity.UserPrincipalBuilder;
 import com.bk.authservice.policy.PolicyManager;
+import com.bk.authservice.service.GenericDataProviderService;
 import com.bk.authservice.strategy.AbstractAuthenticationStrategy;
 import com.bk.authservice.strategy.AuthenticationStrategyResolver;
 import com.bk.authservice.util.Constants;
@@ -28,8 +29,8 @@ public class X509AuthenticationStrategy extends AbstractAuthenticationStrategy<X
      * @param policyManager
      * @param authenticationStrategyResolver
      */
-    public X509AuthenticationStrategy(PolicyManager policyManager, AuthenticationStrategyResolver authenticationStrategyResolver) {
-        super(new X509AuthenticationHandler(), policyManager, authenticationStrategyResolver);
+    public X509AuthenticationStrategy(GenericDataProviderService genericDataProviderService, PolicyManager policyManager, AuthenticationStrategyResolver authenticationStrategyResolver) {
+        super(genericDataProviderService, new X509AuthenticationHandler(), policyManager, authenticationStrategyResolver);
     }
 
     @Override

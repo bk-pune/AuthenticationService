@@ -2,6 +2,7 @@ package com.bk.authservice.config;
 
 import com.bk.authservice.handler.x509.X509AuthenticationStrategy;
 import com.bk.authservice.policy.PolicyManager;
+import com.bk.authservice.service.GenericDataProviderService;
 import com.bk.authservice.strategy.AuthenticationStrategyResolver;
 import com.bk.authservice.handler.oidc.OIDCAuthenticationStrategy;
 import com.bk.authservice.handler.usernamepassword.UsernamePasswordAuthenticationStrategy;
@@ -20,18 +21,21 @@ public class AuthStrategyBeanConfiguration {
     @Autowired
     private PolicyManager policyManager;
 
+    @Autowired
+    private GenericDataProviderService genericDataProviderService;
+
     @Bean
     public UsernamePasswordAuthenticationStrategy getUsernamePasswordAuthenticationStrategy() {
-        return new UsernamePasswordAuthenticationStrategy(policyManager, authenticationStrategyResolver);
+        return new UsernamePasswordAuthenticationStrategy(genericDataProviderService, policyManager, authenticationStrategyResolver);
     }
 
     @Bean
     public OIDCAuthenticationStrategy getOIDCAuthenticationStrategy() {
-        return new OIDCAuthenticationStrategy(policyManager, authenticationStrategyResolver);
+        return new OIDCAuthenticationStrategy(genericDataProviderService, policyManager, authenticationStrategyResolver);
     }
 
     @Bean
     public X509AuthenticationStrategy getX509AuthenticationStrategy() {
-        return new X509AuthenticationStrategy(policyManager, authenticationStrategyResolver);
+        return new X509AuthenticationStrategy(genericDataProviderService, policyManager, authenticationStrategyResolver);
     }
 }

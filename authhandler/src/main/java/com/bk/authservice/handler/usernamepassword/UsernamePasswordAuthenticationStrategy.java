@@ -3,14 +3,15 @@ package com.bk.authservice.handler.usernamepassword;
 import com.bk.authservice.handler.AuthenticationType;
 import com.bk.authservice.identity.UserPrincipal;
 import com.bk.authservice.identity.UserPrincipalBuilder;
-import com.bk.authservice.identity.YaasPrincipal;
 import com.bk.authservice.model.MemCache;
 import com.bk.authservice.model.RequestData;
 import com.bk.authservice.policy.PolicyManager;
+import com.bk.authservice.service.GenericDataProviderService;
 import com.bk.authservice.strategy.AbstractAuthenticationStrategy;
 import com.bk.authservice.strategy.AuthenticationStrategyResolver;
 import com.bk.authservice.util.Constants;
 import com.bk.authservice.util.CookieUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +21,8 @@ import java.util.Map;
 
 public class UsernamePasswordAuthenticationStrategy extends AbstractAuthenticationStrategy<UsernamePasswordCredentials, UserPrincipal> {
 
-    public UsernamePasswordAuthenticationStrategy(PolicyManager policyManager, AuthenticationStrategyResolver authenticationStrategyResolver) {
-        super(new UsernamePasswordAuthenticationHandler(), policyManager, authenticationStrategyResolver);
+    public UsernamePasswordAuthenticationStrategy(GenericDataProviderService genericDataProviderService, PolicyManager policyManager, AuthenticationStrategyResolver authenticationStrategyResolver) {
+        super(genericDataProviderService, new UsernamePasswordAuthenticationHandler(), policyManager, authenticationStrategyResolver);
     }
 
     @Override
@@ -45,14 +46,15 @@ public class UsernamePasswordAuthenticationStrategy extends AbstractAuthenticati
             return;
         }
 
-        // remove request data
-        MemCache.removeRequestData(requestData.getRequestId());
         // authentication success, generate authorization data
         // authorizationData = authorizationResolver.resolveAuthorization(username?)
         UserPrincipal userPrincipal = buildPrincipal(authenticationAttributes, httpServletRequest);
 
         // save authorization data to db/cache
         String tokenValue = preAuthCookie.getValue() + "_" +userPrincipal.getName(); // TODO
+
+        // remove request data
+        MemCache.removeRequestData(requestData.getRequestId());
         manageCookies(tokenValue, httpServletResponse);
 
         // redirect to original url
@@ -61,12 +63,15 @@ public class UsernamePasswordAuthenticationStrategy extends AbstractAuthenticati
 
     public UserPrincipal buildPrincipal(Map authenticationAttributes, HttpServletRequest httpServletRequest) {
         UserPrincipalBuilder builder = new UserPrincipalBuilder(); //TODO when non-user principal type is supported, this should be refactored
-        return builder.authenticationAttributes(authenticationAttributes)
+        UserPrincipal principal = builder.authenticationAttributes(authenticationAttributes)
                 .authenticationType(AuthenticationType.USERNAME_PASSWORD)
                 .name(authenticationAttributes.get(Constants.USERNAME).toString())
-                .authorization(null) //TODO
+                .authorization(null) //TODO AuthorizationResolver
                 .locale(httpServletRequest.getLocale())
                 .build();
+        // TODO - lots of items - persist only if not present in db
+        genericDataProviderService.persistSingle(principal.getUser());
+        return principal;
     }
 
     @Override

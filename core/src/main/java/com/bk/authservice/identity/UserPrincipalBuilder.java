@@ -1,5 +1,6 @@
 package com.bk.authservice.identity;
 
+import com.bk.authservice.entity.User;
 import com.bk.authservice.handler.AuthenticationType;
 
 import java.util.Locale;
@@ -16,6 +17,7 @@ public class UserPrincipalBuilder {
     private Authorization authorization;
     private String name;
     private Locale locale;
+    private User user;
 
     public UserPrincipalBuilder() {
     }
@@ -32,6 +34,11 @@ public class UserPrincipalBuilder {
         this.authorization = authorization;
         return this;
     }
+
+    public UserPrincipalBuilder user(User user) {
+        this.user = user;
+        return this;
+    }
     public UserPrincipalBuilder name(String name) {
         this.name = name;
         return this;
@@ -42,6 +49,6 @@ public class UserPrincipalBuilder {
     }
 
     public UserPrincipal build(){
-        return new UserPrincipal(authenticationType, authenticationAttributes, authorization, name, locale);
+        return new UserPrincipal(authenticationType, authenticationAttributes, authorization, user, locale);
     }
 }
