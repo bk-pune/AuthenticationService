@@ -1,12 +1,16 @@
-package com.bk.authservice.service;
+package com.bk.dao.core.api;
 
 import java.io.Serializable;
 
 /**
+ * APIs to be invoked before and/or after any DAO API is invoked.<p>
+ * It gives the applications the power of doing much more than just CRUD operations on the entities.<p>
+ * A good use case is to fill up common fields such as creation date, modification date, modified by, etc.
+ * <p>
  * Created By: bhushan.karmarkar12@gmail.com
  * Date: 09/03/22
  */
-public interface PrePostDataService<T> {
+public interface DaoPrePostOperations<T> {
     /**
      * Define the operations to be performed <i>before</i> this entity is persisted in storage.<br>
      * Such operation could include modifying last updated, created timestamps.

@@ -1,4 +1,6 @@
-package com.bk.dao.core;
+package com.bk.dao.core.api;
+
+import com.bk.dao.core.impl.GenericDao;
 
 /**
  * Registry for DAOs used

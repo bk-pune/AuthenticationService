@@ -1,7 +1,7 @@
 package com.bk.dao.test;
 
 import com.bk.dao.model.TestUserEntity;
-import com.bk.dao.core.GenericDao;
+import com.bk.dao.core.impl.GenericDao;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ public class DaoTest {
 
     @Test
     public void testPersistSingle() {
-        GenericDao dao = new GenericDao(TestUserEntity.class);
+        GenericDao dao = new GenericDao(TestUserEntity.class, );
         TestUserEntity t = (TestUserEntity) dao.persistSingle(getTestUserEntity());
         Assert.assertNotNull(t.getId());
     }

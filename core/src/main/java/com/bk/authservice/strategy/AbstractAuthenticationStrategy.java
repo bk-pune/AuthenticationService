@@ -60,18 +60,30 @@ public abstract class AbstractAuthenticationStrategy<C extends Credentials, P ex
                 .authenticationType(AuthenticationType.OIDC)
                 .name(authenticationAttributes.get(Constants.USERNAME).toString())
                 .authorization(null) //TODO
-                .user(getUser(authenticationAttributes.get(Constants.USERNAME).toString())) // TODO fetch user from db and set here
+                .user(getUser(authenticationAttributes)) // TODO fetch user from db and set here
                 .locale(httpServletRequest.getLocale())
                 .build();
     }
 
-    private User getUser(String username) {
+    private User getUser(Map authenticationAttributes) {
         Map<String, Object> fetchCriteria = new HashMap<>();
+        String username = authenticationAttributes.get(Constants.USERNAME).toString();
+        User user = null;
         fetchCriteria.put(Constants.USERNAME, username);
         List<YaasEntity> entities = genericDataProviderService.fetchWithCriteria(User.class, fetchCriteria);
         if (entities != null) {
-            return (User) entities.get(0);
+            user = (User) entities.get(0);
         }
-        return null;
+        if (user == null) {
+            user = createNewUser(authenticationAttributes);
+        }
+        return user;
+    }
+
+    private User createNewUser(Map authenticationAttributes) {
+        User user = new User();
+        user.setUsername(authenticationAttributes.get(Constants.USERNAME).toString());
+        user = (User) genericDataProviderService.persistSingle(user);
+        return user;
     }
 }

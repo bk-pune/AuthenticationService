@@ -1,5 +1,6 @@
-package com.bk.dao.core;
+package com.bk.dao.core.impl;
 
+import com.bk.dao.core.api.DaoPrePostOperations;
 import com.bk.dao.session.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -18,11 +19,14 @@ import java.util.Map;
  * Created By: bhushan.karmarkar12@gmail.com
  * Date: 03/03/22
  */
-public class GenericDao {
+public class GenericDao implements DaoPrePostOperations {
+
+    private DaoPrePostOperations daoPrePostOperations;
+
     private Class entityClass;
     private SessionFactory sessionFactory;
 
-    public GenericDao(Class entityClass) {
+    public GenericDao(Class entityClass, DaoPrePostOperations daoPrePostOperations) {
         this.entityClass = entityClass;
         sessionFactory = new HibernateUtil(entityClass).getSessionFactory();
     }
@@ -30,17 +34,20 @@ public class GenericDao {
     public <T> T persistSingle(T entity) {
         Session currentSession = sessionFactory.getCurrentSession();
         Transaction transaction = currentSession.beginTransaction();
+        entity = (T) prePersistSingle(entity);
         currentSession.persist(entity);
         transaction.commit();
-        return (T) entity;
+        entity = (T) postPersistSingle(entity);
+        return entity;
     }
 
     public <T> T fetchSingle(Long id) {
         Session currentSession = sessionFactory.getCurrentSession();
         Transaction transaction = currentSession.beginTransaction();
-        Object entity = currentSession.get(entityClass, id);
+        T entity = (T) currentSession.get(entityClass, id);
+        entity =  (T) postFetchSingle(entity);
         transaction.commit();
-        return (T) entity;
+        return entity;
     }
 
     public <T> List<T> fetchWithCriteria(Map<String, Object> fetchConditions) {
@@ -61,6 +68,9 @@ public class GenericDao {
         }
         query.where(predicate);
         List<T> resultList = currentSession.createQuery(query).getResultList();
+        for(T t:resultList) {
+            t = (T) postFetchSingle(t); // pass by reference
+        }
         transaction.commit();
         return resultList;
     }

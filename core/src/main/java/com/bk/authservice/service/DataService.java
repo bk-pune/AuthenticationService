@@ -1,6 +1,5 @@
 package com.bk.authservice.service;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -8,7 +7,7 @@ import java.util.Map;
  * Created By: bhushan.karmarkar12@gmail.com
  * Date: 04/03/22
  */
-public interface DataService<T> extends PrePostDataService{
+public interface DataService<T> {
     /**
      * Persists the given entity in persistent storage.
      *

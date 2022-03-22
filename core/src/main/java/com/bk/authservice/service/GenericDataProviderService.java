@@ -1,7 +1,7 @@
 package com.bk.authservice.service;
 
 import com.bk.authservice.entity.YaasEntity;
-import com.bk.dao.core.DAORegistry;
+import com.bk.dao.core.api.DAORegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,20 +21,19 @@ public class GenericDataProviderService implements DataService<YaasEntity> {
 
     @Override
     public YaasEntity persistSingle(YaasEntity yaasEntity) {
-        return null;
+        yaasEntity = daoRegistry.getDao(yaasEntity.getClass()).persistSingle(yaasEntity);
+        return yaasEntity;
     }
 
     @Override
     public YaasEntity fetchSingle(Class<? extends YaasEntity> entityClass, Long id) {
         YaasEntity yaasEntity = daoRegistry.getDao(entityClass).fetchSingle(id);
-        yaasEntity = (YaasEntity) postPersistSingle(yaasEntity);
         return yaasEntity;
     }
 
     @Override
     public List<YaasEntity> fetchWithCriteria(Class<? extends YaasEntity> entityClass, Map<String, Object> fetchConditions) {
         return daoRegistry.getDao(entityClass).fetchWithCriteria(fetchConditions);
-        //TODO postFetchWithCriteria
     }
 
 
