@@ -13,7 +13,7 @@ public class DaoTest {
 
     @Test
     public void testPersistSingle() {
-        GenericDao dao = new GenericDao(TestUserEntity.class, );
+        GenericDao dao = new GenericDao(TestUserEntity.class, null);
         TestUserEntity t = (TestUserEntity) dao.persistSingle(getTestUserEntity());
         Assert.assertNotNull(t.getId());
     }
