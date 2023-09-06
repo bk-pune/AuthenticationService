@@ -1,6 +1,7 @@
 package com.bk.dao.model;
 
-import javax.persistence.*;
+
+import jakarta.persistence.*;
 
 /**
  * Created By: bhushan.karmarkar12@gmail.com

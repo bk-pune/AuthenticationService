@@ -2,14 +2,14 @@ package com.bk.dao.core.impl;
 
 import com.bk.dao.core.api.DaoPrePostOperations;
 import com.bk.dao.session.HibernateUtil;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +28,7 @@ public class GenericDao implements DaoPrePostOperations {
 
     public GenericDao(Class entityClass, DaoPrePostOperations daoPrePostOperations) {
         this.entityClass = entityClass;
-        sessionFactory = new HibernateUtil(entityClass).getSessionFactory();
+       // sessionFactory = new HibernateUtil(entityClass).getSessionFactory();
     }
 
     public <T> T persistSingle(T entity) {

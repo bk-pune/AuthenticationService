@@ -1,6 +1,6 @@
 package com.bk.authservice.entity;
 
-import javax.persistence.*;
+
 import java.util.Objects;
 
 /**
@@ -8,18 +8,18 @@ import java.util.Objects;
  * Created By: bhushan.karmarkar12@gmail.com
  * Date: 03/03/22
  */
-@Entity
-@Table(name = "USERS")
+//@Entity
+//@Table(name = "USERS")
 public class User implements YaasEntity {
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name = "id")
+//    @Id
+//    @GeneratedValue(strategy= GenerationType.IDENTITY)
+//    @Column(name = "id")
     private Long id;
 
-    @Column(name = "username", nullable = false)
+//    @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name = "email")
+//    @Column(name = "email")
     private String email;
 
     public Long getId() {

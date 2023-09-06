@@ -12,10 +12,8 @@ import com.bk.authservice.policy.PolicyManager;
 import com.bk.authservice.service.GenericDataProviderService;
 import com.bk.authservice.util.Constants;
 import com.bk.authservice.util.CookieUtils;
-import org.springframework.stereotype.Component;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +25,6 @@ import static com.bk.authservice.util.CookieUtils.TOKEN_COOKIE_NAME;
  * Created By: bhushan.karmarkar12@gmail.com
  * Date: 10/02/22
  */
-@Component
 public abstract class AbstractAuthenticationStrategy<C extends Credentials, P extends YaasPrincipal> implements AuthenticationStrategy {
 
     protected AuthenticationHandler authenticationHandler;

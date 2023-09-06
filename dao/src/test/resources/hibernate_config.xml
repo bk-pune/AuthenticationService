@@ -5,15 +5,16 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.url">
-            jdbc:derby:/Users/bkarmarkar/Workspace/AuthenticationService/dao/src/test/yaasdb
+            jdbc:derby:yaasdb
         </property>
         <property name="hibernate.default_schema">bhushan</property>
         <property name="javax.persistence.jdbc.user">bhushan</property>
         <property name="javax.persistence.jdbc.password">bkpune</property>
-        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
 
         <!-- Enable Hibernate's automatic session context management -->
         <property name="current_session_context_class">thread</property>
         <property name="hibernate.dialect">org.hibernate.dialect.DerbyDialect</property>
+
     </session-factory>
 </hibernate-configuration>

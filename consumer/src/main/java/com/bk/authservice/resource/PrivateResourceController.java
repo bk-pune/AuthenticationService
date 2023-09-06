@@ -4,17 +4,17 @@ import com.bk.authservice.policy.Policy;
 import com.bk.authservice.policy.PolicyManager;
 import com.bk.authservice.util.CookieUtils;
 import com.bk.authservice.policy.GlobalPolicy;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @RestController
-public class ResourceController {
+public class PrivateResourceController {
 
     @Autowired
     private PolicyManager policyManager;

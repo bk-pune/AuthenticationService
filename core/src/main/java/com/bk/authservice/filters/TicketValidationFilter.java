@@ -3,12 +3,12 @@ package com.bk.authservice.filters;
 import com.bk.authservice.strategy.AuthenticationStrategy;
 import com.bk.authservice.strategy.AuthenticationStrategyResolverImpl;
 import com.bk.authservice.util.CookieUtils;
+import jakarta.servlet.*;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.servlet.*;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -53,8 +53,13 @@ public class TicketValidationFilter implements Filter {
     }
 
     private boolean isBypassUrl(String requestPath) {
-        List<String> bypassUrlList = Arrays.asList("/favicon.ico", "/auth/usernamepassword/login", "/auth/usernamepassword/login.html",
-                "/auth/usernamepassword/logout", "/auth/oidc/code", "/logout", "/postlogout");
+        List<String> bypassUrlList = Arrays.asList(
+                "/favicon.ico", "/auth/usernamepassword/login",
+                "/auth/usernamepassword/login.html",
+                "/auth/usernamepassword/logout",
+                "/auth/oidc/code",
+                "/logout",
+                "/postlogout");
         boolean isBypassUrl = false;
         for(String bypassUrl:bypassUrlList) {
             if(requestPath.contains(bypassUrl)) { //TODO replace with matcher

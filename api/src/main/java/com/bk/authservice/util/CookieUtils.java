@@ -1,7 +1,8 @@
 package com.bk.authservice.util;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +23,7 @@ public class CookieUtils {
             return null;
         }
         List<Cookie> securityToken = Optional.of(Arrays.stream(cookies).filter(cookie -> cookie.getName().equals(cookieName)).collect(Collectors.toList())).get();
-        if(securityToken != null && securityToken.size() > 0) {
+        if(!securityToken.isEmpty()) {
             return securityToken.get(0);
         }
         return null;

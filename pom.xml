@@ -14,7 +14,9 @@
         <module>authhandler</module>
         <module>consumer</module>
         <module>model</module>
-        <module>dao</module>
+<!--       Fails due to hibernate auto db creation issue with hibernate 6.x
+ <module>dao</module>
+ -->
     </modules>
 
     <properties>

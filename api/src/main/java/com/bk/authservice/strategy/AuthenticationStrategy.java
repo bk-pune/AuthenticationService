@@ -3,11 +3,10 @@ package com.bk.authservice.strategy;
 import com.bk.authservice.handler.Credentials;
 import com.bk.authservice.identity.YaasPrincipal;
 import com.bk.authservice.util.CookieUtils;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 import java.util.UUID;
 
 public interface AuthenticationStrategy<C extends Credentials, P extends YaasPrincipal> {

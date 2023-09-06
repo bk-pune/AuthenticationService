@@ -1,5 +1,6 @@
 package com.bk.authservice.handler.usernamepassword;
 
+import com.bk.authservice.entity.User;
 import com.bk.authservice.handler.AuthenticationType;
 import com.bk.authservice.identity.UserPrincipal;
 import com.bk.authservice.identity.UserPrincipalBuilder;
@@ -11,11 +12,10 @@ import com.bk.authservice.strategy.AbstractAuthenticationStrategy;
 import com.bk.authservice.strategy.AuthenticationStrategyResolver;
 import com.bk.authservice.util.Constants;
 import com.bk.authservice.util.CookieUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
@@ -63,14 +63,20 @@ public class UsernamePasswordAuthenticationStrategy extends AbstractAuthenticati
 
     public UserPrincipal buildPrincipal(Map authenticationAttributes, HttpServletRequest httpServletRequest) {
         UserPrincipalBuilder builder = new UserPrincipalBuilder(); //TODO when non-user principal type is supported, this should be refactored
+        User user = new User();
+        user.setUsername("bhushan");
+        user.setEmail("bkpune@123");
+        user.setId(1L);
         UserPrincipal principal = builder.authenticationAttributes(authenticationAttributes)
                 .authenticationType(AuthenticationType.USERNAME_PASSWORD)
                 .name(authenticationAttributes.get(Constants.USERNAME).toString())
                 .authorization(null) //TODO AuthorizationResolver
                 .locale(httpServletRequest.getLocale())
+                .user(user)
                 .build();
         // TODO - lots of items - persist only if not present in db
-        genericDataProviderService.persistSingle(principal.getUser());
+        // genericDataProviderService.persistSingle(principal.getUser());
+
         return principal;
     }
 
